@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MINHAS LEMBRANÇAS - Cabine Colorida 3D</title>
+ 
+  <!-- Fontes & Ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+ 
+  <style>
+    :root {
+      /* Paleta: Azul, Amarelo, Verde, Vermelho, Branco, Preto */
+      --color-blue: #00f3ff;
+      --color-yellow: #ffe600;
+      --color-green: #00ff66;
+      --color-red: #ff0055;
+      --color-white: #ffffff;
+      --color-black: #000000;
+      --bg-dark: #060814;
+      --panel-bg: rgba(12, 16, 38, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background-color: var(--bg-dark);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      background-image:
+        linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    /* Cabeçalho */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 25px;
+      background: rgba(6, 8, 20, 0.95);
+      border-bottom: 2px solid var(--color-blue);
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+
+    /* Título 3D Flutuante Customizável */
+    .title-3d {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #fff;
+      letter-spacing: 2px;
+      text-shadow:
+        0 0 5px var(--color-blue),
+        0 0 10px var(--color-yellow),
+        0 0 20px var(--color-red);
+      animation: float3d 3s ease-in-out infinite alternate;
+      transition: all 0.3s ease;
+    }
+
+    @keyframes float3d {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-5px); }
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Botões Neon */
+    .btn-neon {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+
+    .btn-neon:active {
+      transform: translateY(2px) scale(0.98);
+    }
+
+    .btn-blue { border: 2px solid var(--color-blue); color: var(--color-blue); background: rgba(0, 243, 255, 0.1); }
+    .btn-yellow { border: 2px solid var(--color-yellow); color: var(--color-yellow); background: rgba(255, 230, 0, 0.1); }
+    .btn-green { border: 2px solid var(--color-green); color: var(--color-green); background: rgba(0, 255, 102, 0.1); }
+    .btn-red { border: 2px solid var(--color-red); color: var(--color-red); background: rgba(255, 0, 85, 0.1); }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .screen {
+      display: none;
+      width: 100%;
+      max-width: 950px;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    /* Menu Simples & Fácil */
+    .menu-card {
+      background: var(--panel-bg);
+      border: 2px solid var(--color-blue);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      margin: 15px 0 10px 0;
+      color: var(--color-yellow);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .option-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .option-btn:hover, .option-btn.selected {
+      border-color: var(--color-green);
+      background: rgba(0, 255, 102, 0.15);
+      box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+    }
+
+    .option-btn i { font-size: 1.5rem; color: var(--color-blue); }
+    .option-btn.selected i { color: var(--color-green); }
+
+    .custom-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .custom-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--color-blue);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .custom-box label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      color: var(--color-blue);
+    }
+
+    .color-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px;
+    }
+
+    .color-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #fff;
+    }
+
+    .color-dot.selected {
+      transform: scale(1.15);
+      box-shadow: 0 0 8px #fff;
+    }
+
+    .logo-upload-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed var(--color-blue);
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 0.8rem;
+      color: #fff;
+    }
+
+    .sticker-list {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 4px;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+
+    .sticker-item {
+      font-size: 1.2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 4px;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .sticker-item.selected {
+      border-color: var(--color-green);
+      background: rgba(0, 255, 102, 0.2);
+    }
+
+    .text-options-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 5px;
+    }
+
+    .btn-size-option {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-blue);
+      border-radius: 5px;
+      color: #fff;
+      padding: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .btn-size-option.selected {
+      background: var(--color-blue);
+      color: #000;
+      font-weight: bold;
+    }
+
+    .font-select {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--color-blue);
+      color: #fff;
+      padding: 6px;
+      border-radius: 5px;
+      font-size: 0.85rem;
+    }
+
+    .btn-start-camera {
+      font-size: 1.3rem;
+      padding: 16px;
+      border-radius: 50px;
+      width: 100%;
+      margin-top: 20px;
+      justify-content: center;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 10px rgba(0, 243, 255, 0.4); }
+      50% { box-shadow: 0 0 30px rgba(0, 243, 255, 0.8); }
+      100% { box-shadow: 0 0 10px rgba(0, 243, 255, 0.4); }
+    }
+
+    /* Camera View */
+    .camera-screen-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      gap: 15px;
+    }
+
+    .camera-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      height: 65vh;
+      background: #000;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 3px solid var(--color-red);
+      box-shadow: 0 0 30px rgba(255, 0, 85, 0.4);
+    }
+
+    video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+
+    .countdown-overlay {
+      position: absolute;
+      inset: 0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.4);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9rem;
+      font-weight: 900;
+      color: var(--color-yellow);
+      text-shadow: 0 0 30px var(--color-yellow);
+    }
+
+    .flash-screen {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .flash-screen.trigger { animation: flashAnim 0.3s ease-out; }
+
+    @keyframes flashAnim { 0% { opacity: 1; } 100% { opacity: 0; } }
+
+    .capture-status {
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(6, 8, 20, 0.85);
+      border: 1px solid var(--color-blue);
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .camera-controls {
+      display: flex;
+      gap: 15px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-take-photo {
+      font-size: 1.4rem;
+      padding: 15px 40px;
+      border-radius: 50px;
+    }
+
+    /* Preview Screen */
+    .preview-box {
+      background: var(--panel-bg);
+      border: 2px solid var(--color-yellow);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .preview-canvas-container {
+      max-height: 55vh;
+      display: flex;
+      justify-content: center;
+      border: 2px dashed var(--color-blue);
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    canvas { max-height: 100%; max-width: 100%; object-fit: contain; }
+
+    .preview-controls { display: flex; gap: 12px; }
+
+    /* Modal Configs Expandido */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 200;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-content {
+      background: var(--bg-dark);
+      border: 2px solid var(--color-blue);
+      border-radius: 20px;
+      padding: 25px;
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .config-section {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(0, 243, 255, 0.2);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .config-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      color: var(--color-yellow);
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printContainer, #printContainer * { visibility: visible; }
+      #printContainer { position: absolute; left: 0; top: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cabeçalho -->
+  <header>
+    <div class="title-3d" id="boothTitle">MINHAS LEMBRANÇAS</div>
+    <div class="header-actions">
+      <button class="btn-neon btn-red" id="headerMenuBtn"><i class="fas fa-home"></i> MENU</button>
+      <button class="btn-neon btn-blue" id="toggleFullscreenBtn"><i class="fas fa-expand"></i> TELA CHEIA</button>
+      <button class="btn-neon btn-yellow" id="openSettingsBtn"><i class="fas fa-cog"></i></button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. MENU FÁCIL & SIMPLES -->
+    <section id="screenMenu" class="screen active">
+      <div class="menu-card">
+       
+        <!-- Passos Simples -->
+        <div class="section-title"><i class="fas fa-th-large"></i> 1. QUANTAS FOTOS DESEJA?</div>
+        <div class="options-grid grid-selector">
+          <div class="option-btn selected" data-grid="1"><i class="fas fa-square"></i><span>1 FOTO</span></div>
+          <div class="option-btn" data-grid="2"><i class="fas fa-th-large"></i><span>2 FOTOS</span></div>
+          <div class="option-btn" data-grid="3"><i class="fas fa-stream"></i><span>3 FOTOS</span></div>
+          <div class="option-btn" data-grid="4"><i class="fas fa-border-all"></i><span>4 FOTOS</span></div>
+        </div>
+
+        <div class="section-title"><i class="fas fa-clock"></i> 2. TEMPO DO TIMER</div>
+        <div class="options-grid timer-selector">
+          <div class="option-btn selected" data-timer="3"><i class="fas fa-stopwatch"></i><span>3 SEG</span></div>
+          <div class="option-btn" data-timer="5"><i class="fas fa-stopwatch"></i><span>5 SEG</span></div>
+          <div class="option-btn" data-timer="10"><i class="fas fa-stopwatch"></i><span>10 SEG</span></div>
+        </div>
+
+        <div class="section-title"><i class="fas fa-magic"></i> 3. PERSONALIZAR SUAS FOTOS</div>
+        <div class="custom-row">
+         
+          <!-- Logo do Evento -->
+          <div class="custom-box">
+            <label>LOGO DO EVENTO</label>
+            <label for="logoInput" class="logo-upload-btn">
+              <i class="fas fa-image"></i> <span id="logoStatus">ENVIAR LOGO</span>
+            </label>
+            <input type="file" id="logoInput" accept="image/*" style="display:none;">
+          </div>
+
+          <!-- Cor da Borda -->
+          <div class="custom-box">
+            <label>COR DA BORDA</label>
+            <div class="color-picker-grid">
+              <div class="color-dot border-color-dot selected" style="background:#060814; border: 2px solid #00f3ff;" data-border-color="#060814" title="Dark"></div>
+              <div class="color-dot border-color-dot" style="background:#00f3ff;" data-border-color="#00f3ff" title="Azul"></div>
+              <div class="color-dot border-color-dot" style="background:#ffe600;" data-border-color="#ffe600" title="Amarelo"></div>
+              <div class="color-dot border-color-dot" style="background:#00ff66;" data-border-color="#00ff66" title="Verde"></div>
+              <div class="color-dot border-color-dot" style="background:#ff0055;" data-border-color="#ff0055" title="Vermelho"></div>
+              <div class="color-dot border-color-dot" style="background:#ffffff;" data-border-color="#ffffff" title="Branco"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Frase Customizada & Opções de Formatação -->
+        <div class="custom-row" style="grid-template-columns: 1fr;">
+          <div class="custom-box">
+            <label>FRASE ESPECIAL & PERSONALIZAÇÃO DE TEXTO</label>
+            <input type="text" id="preCustomTextInput" placeholder="Ex: Aniversário da Ana" style="background:transparent; border:1px solid var(--color-blue); color:#fff; padding:6px; border-radius:5px; margin-bottom: 5px;">
+           
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+              <!-- Cor das Letras -->
+              <div>
+                <label style="font-size: 0.65rem;">COR DA LETRA</label>
+                <div class="color-picker-grid">
+                  <div class="color-dot text-color-dot" style="background:#00f3ff;" data-text-color="#00f3ff"></div>
+                  <div class="color-dot text-color-dot selected" style="background:#ffe600;" data-text-color="#ffe600"></div>
+                  <div class="color-dot text-color-dot" style="background:#00ff66;" data-text-color="#00ff66"></div>
+                  <div class="color-dot text-color-dot" style="background:#ff0055;" data-text-color="#ff0055"></div>
+                  <div class="color-dot text-color-dot" style="background:#ffffff;" data-text-color="#ffffff"></div>
+                  <div class="color-dot text-color-dot" style="background:#000000;" data-text-color="#000000"></div>
+                </div>
+              </div>
+
+              <!-- Tamanho das Letras -->
+              <div>
+                <label style="font-size: 0.65rem;">TAMANHO</label>
+                <div class="text-options-grid">
+                  <button class="btn-size-option" data-size="16">P</button>
+                  <button class="btn-size-option selected" data-size="22">M</button>
+                  <button class="btn-size-option" data-size="30">G</button>
+                </div>
+              </div>
+
+              <!-- Estilo / Fonte -->
+              <div>
+                <label style="font-size: 0.65rem;">ESTILO DE FONTE</label>
+                <select id="textFontSelect" class="font-select" style="width: 100%;">
+                  <option value="Orbitron">Futurista (Orbitron)</option>
+                  <option value="Rajdhani">Clean (Rajdhani)</option>
+                  <option value="Impact">Destacado (Impact)</option>
+                  <option value="Comic Sans MS">Divertido (Cursiva)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Figurinhas & Busca por Símbolo de Curso -->
+        <div class="section-title"><i class="fas fa-graduation-cap"></i> 4. FIGURINHAS & SÍMBOLOS DE CURSOS</div>
+        <div class="custom-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+            <label>DIGITE O NOME DO CURSO OU CLIQUE NAS FIGURINHAS</label>
+            <button class="btn-neon btn-yellow" id="toggleBorderStickersBtn" style="font-size:0.75rem; padding:4px 8px;">
+              <i class="fas fa-border-style"></i> ARRUDIAR BORDAS: LIGADO
+            </button>
+          </div>
+
+          <!-- Busca de Símbolos por Nome do Curso -->
+          <div style="display:flex; gap:8px; margin-bottom:8px;">
+            <input type="text" id="courseSearchInput" placeholder="Ex: Direito, Medicina, TI, Enfermagem..." style="flex:1; background:rgba(255,255,255,0.05); border:1px solid var(--color-blue); color:#fff; padding:6px; border-radius:5px; font-size:0.85rem;">
+            <button class="btn-neon btn-green" id="addCourseStickerBtn" style="padding:6px 12px; font-size:0.8rem;"><i class="fas fa-search"></i> BUSCAR CURSO</button>
+          </div>
+
+          <div class="sticker-list" id="stickerList">
+            <!-- Cursos & Formatura -->
+            <div class="sticker-item" data-sticker="🎓" title="Formatura / Curso">🎓</div>
+            <div class="sticker-item" data-sticker="⚖️" title="Direito">⚖️</div>
+            <div class="sticker-item" data-sticker="🩺" title="Medicina / Enfermagem">🩺</div>
+            <div class="sticker-item" data-sticker="💻" title="TI / Computação">💻</div>
+            <div class="sticker-item" data-sticker="📐" title="Engenharia / Arquitetura">📐</div>
+            <div class="sticker-item" data-sticker="📚" title="Pedagogia / Letras">📚</div>
+            <div class="sticker-item" data-sticker="💼" title="Administração">💼</div>
+            <div class="sticker-item" data-sticker="🔬" title="Biomedicina / Farmácia">🔬</div>
+            <div class="sticker-item" data-sticker="🎨" title="Artes / Design">🎨</div>
+            <div class="sticker-item" data-sticker="🦷" title="Odontologia">🦷</div>
+            <div class="sticker-item" data-sticker="🐾" title="Veterinária">🐾</div>
+            <div class="sticker-item" data-sticker="⚽" title="Educação Física">⚽</div>
+
+            <!-- Dragon Ball & Naruto -->
+            <div class="sticker-item" data-sticker="🐉">🐉</div>
+            <div class="sticker-item" data-sticker="🟠">🟠</div>
+            <div class="sticker-item" data-sticker="⚡">⚡</div>
+            <div class="sticker-item" data-sticker="🔥">🔥</div>
+            <div class="sticker-item" data-sticker="💥">💥</div>
+            <div class="sticker-item" data-sticker="🌀">🌀</div>
+            <div class="sticker-item" data-sticker="🍥">🍥</div>
+            <div class="sticker-item" data-sticker="🍃">🍃</div>
+            <div class="sticker-item" data-sticker="🦊">🦊</div>
+            <div class="sticker-item" data-sticker="👁️">👁️</div>
+
+            <!-- Anime, K-Pop e Animais -->
+            <div class="sticker-item" data-sticker="✨">✨</div>
+            <div class="sticker-item" data-sticker="👑">👑</div>
+            <div class="sticker-item" data-sticker="💜">💜</div>
+            <div class="sticker-item" data-sticker="🌸">🌸</div>
+            <div class="sticker-item" data-sticker="⭐">⭐</div>
+            <div class="sticker-item" data-sticker="🎧">🎧</div>
+            <div class="sticker-item" data-sticker="🐶">🐶</div>
+            <div class="sticker-item" data-sticker="🐱">🐱</div>
+            <div class="sticker-item" data-sticker="🐰">🐰</div>
+            <div class="sticker-item" data-sticker="🦄">🦄</div>
+          </div>
+        </div>
+
+        <!-- Botão Principal: Ligar Câmera -->
+        <button class="btn-neon btn-blue btn-start-camera" id="turnOnCameraBtn">
+          <i class="fas fa-power-off"></i> LIGAR A CÂMERA
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. TELA DE CAPTURA COM VISUALIZAÇÃO EM TELA CHEIA -->
+    <section id="screenCapture" class="screen">
+      <div class="camera-screen-container">
+        <div class="camera-container">
+          <video id="webcamVideo" autoplay playsinline muted></video>
+          <div class="countdown-overlay" id="countdownOverlay">3</div>
+          <div class="flash-screen" id="flashOverlay"></div>
+          <div class="capture-status" id="captureStatus">CÂMERA PRONTA</div>
+        </div>
+       
+        <!-- Botão Manual de Tirar a Foto -->
+        <div class="camera-controls">
+          <button class="btn-neon btn-red btn-take-photo" id="takePhotoBtn">
+            <i class="fas fa-camera"></i> TIRAR A FOTO
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. TELA DE PRÉ-VISUALIZAÇÃO & IMPRESSÃO -->
+    <section id="screenPreview" class="screen">
+      <div class="preview-box">
+        <div class="section-title"><i class="fas fa-check-circle"></i> SUA LEMBRANÇA ESTÁ PRONTA!</div>
+        <div class="preview-canvas-container">
+          <canvas id="previewCanvas"></canvas>
+        </div>
+        <div class="preview-controls">
+          <button class="btn-neon btn-red" id="retakePhotosBtn"><i class="fas fa-redo"></i> TIRAR NOVAMENTE</button>
+          <button class="btn-neon btn-yellow" id="printBtn"><i class="fas fa-print"></i> IMPRIMIR</button>
+          <button class="btn-neon btn-green" id="downloadBtn"><i class="fas fa-download"></i> BAIXAR PNG</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL DE CONFIGURAÇÕES AVANÇADAS DO TÍTULO & CÂMERA -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-content">
+      <h2 style="font-family:'Orbitron'; color:var(--color-blue); margin-bottom:15px;"><i class="fas fa-sliders-h"></i> CONFIGURAÇÕES DO OPERADOR</h2>
+     
+      <!-- Seção do Título -->
+      <div class="config-section">
+        <div class="config-title">1. TÍTULO DO EVENTO</div>
+        <input type="text" id="inputBoothTitle" value="MINHAS LEMBRANÇAS" style="padding:8px; background:rgba(255,255,255,0.05); border:1px solid var(--color-blue); color:#fff; border-radius:5px; font-size:1rem;">
+      </div>
+
+      <!-- Seção de Estilo de Fonte do Título -->
+      <div class="config-section">
+        <div class="config-title">2. FONTE DO TÍTULO</div>
+        <select id="titleFontSelect" class="font-select">
+          <option value="Orbitron">Futurista (Orbitron)</option>
+          <option value="Rajdhani">Clean (Rajdhani)</option>
+          <option value="Impact">Destacado (Impact)</option>
+          <option value="Comic Sans MS">Divertido (Cursiva)</option>
+        </select>
+      </div>
+
+      <!-- Seção de Cores do Título -->
+      <div class="config-section">
+        <div class="config-title">3. COR DA LETRA DO TÍTULO</div>
+        <div class="color-picker-grid">
+          <div class="color-dot title-color-dot selected" style="background:#ffffff;" data-title-color="#ffffff"></div>
+          <div class="color-dot title-color-dot" style="background:#00f3ff;" data-title-color="#00f3ff"></div>
+          <div class="color-dot title-color-dot" style="background:#ffe600;" data-title-color="#ffe600"></div>
+          <div class="color-dot title-color-dot" style="background:#00ff66;" data-title-color="#00ff66"></div>
+          <div class="color-dot title-color-dot" style="background:#ff0055;" data-title-color="#ff0055"></div>
+          <div class="color-dot title-color-dot" style="background:#000000;" data-title-color="#000000"></div>
+        </div>
+      </div>
+
+      <!-- Seção de Sombras Coloridas (Efeito Neon 3D) -->
+      <div class="config-section">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+          <div class="config-title">4. SOMBRA E NEON DO TÍTULO</div>
+          <button class="btn-neon btn-blue" id="toggleShadowBtn" style="font-size:0.7rem; padding:3px 8px;">SOMBRA: LIGADA</button>
+        </div>
+        <label style="font-size:0.75rem; color:var(--color-blue);">COR DA SOMBRA / BRILHO:</label>
+        <div class="color-picker-grid">
+          <div class="color-dot title-shadow-dot selected" style="background:#00f3ff;" data-shadow-color="#00f3ff"></div>
+          <div class="color-dot title-shadow-dot" style="background:#ffe600;" data-shadow-color="#ffe600"></div>
+          <div class="color-dot title-shadow-dot" style="background:#ff0055;" data-shadow-color="#ff0055"></div>
+          <div class="color-dot title-shadow-dot" style="background:#00ff66;" data-shadow-color="#00ff66"></div>
+          <div class="color-dot title-shadow-dot" style="background:#9d00ff;" data-shadow-color="#9d00ff"></div>
+          <div class="color-dot title-shadow-dot" style="background:#ffffff;" data-shadow-color="#ffffff"></div>
+        </div>
+      </div>
+
+      <!-- Seção da Câmera -->
+      <div class="config-section">
+        <div class="config-title">5. SELEÇÃO DE CÂMERA</div>
+        <select id="cameraSelect" class="font-select"></select>
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:15px;">
+        <button class="btn-neon btn-green" id="closeSettingsBtn">SALVAR & APLICAR</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="printContainer" style="display:none;"></div>
+
+  <script>
+    const state = {
+      selectedGrid: 1,
+      selectedTimer: 3,
+      capturedPhotos: [],
+      currentCameraId: null,
+      stream: null,
+      borderColor: '#060814',
+      eventLogo: null,
+      stickers: [],
+      borderStickers: true,
+      textColor: '#ffe600',
+      textSize: 22,
+      textFont: 'Orbitron',
+      titleText: 'MINHAS LEMBRANÇAS',
+      titleFont: 'Orbitron',
+      titleColor: '#ffffff',
+      titleShadowColor: '#00f3ff',
+      hasTitleShadow: true
+    };
+
+    // Dicionário de Cursos e Seus Emojis
+    const courseEmojiMap = {
+      'direito': '⚖️',
+      'advocacia': '⚖️',
+      'medicina': '🩺',
+      'enfermagem': '🩺',
+      'saude': '🩺',
+      'ti': '💻',
+      'computacao': '💻',
+      'informatica': '💻',
+      'sistemas': '💻',
+      'programacao': '💻',
+      'engenharia': '📐',
+      'arquitetura': '📐',
+      'edificacoes': '📐',
+      'pedagogia': '📚',
+      'letras': '📚',
+      'educacao': '📚',
+      'historia': '📚',
+      'geografia': '📚',
+      'administracao': '💼',
+      'negocios': '💼',
+      'contabilidade': '💼',
+      'biomedicina': '🔬',
+      'farmacia': '🔬',
+      'biologia': '🔬',
+      'quimica': '🔬',
+      'artes': '🎨',
+      'design': '🎨',
+      'publicidade': '🎨',
+      'odontologia': '🦷',
+      'odonto': '🦷',
+      'veterinaria': '🐾',
+      'zootecnia': '🐾',
+      'educacao fisica': '⚽',
+      'esporte': '⚽',
+      'gastronomia': '🍳',
+      'culinaria': '🍳',
+      'musica': '🎵',
+      'fotografia': '📷',
+      'agronomia': '🌾'
+    };
+
+    const screens = {
+      menu: document.getElementById('screenMenu'),
+      capture: document.getElementById('screenCapture'),
+      preview: document.getElementById('screenPreview')
+    };
+
+    const webcamVideo = document.getElementById('webcamVideo');
+    const countdownOverlay = document.getElementById('countdownOverlay');
+    const flashOverlay = document.getElementById('flashOverlay');
+    const captureStatus = document.getElementById('captureStatus');
+    const previewCanvas = document.getElementById('previewCanvas');
+    const boothTitle = document.getElementById('boothTitle');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      setupEventListeners();
+      loadCameraDevices();
+      updateHeaderTitleStyle();
+    });
+
+    function showScreen(screenName) {
+      Object.keys(screens).forEach(name => {
+        screens[name].classList.toggle('active', name === screenName);
+      });
+    }
+
+    function updateHeaderTitleStyle() {
+      boothTitle.textContent = state.titleText;
+      boothTitle.style.fontFamily = `'${state.titleFont}', sans-serif`;
+      boothTitle.style.color = state.titleColor;
+      if (state.hasTitleShadow) {
+        boothTitle.style.textShadow = `0 0 5px ${state.titleShadowColor}, 0 0 15px ${state.titleShadowColor}, 0 0 30px ${state.titleShadowColor}`;
+      } else {
+        boothTitle.style.textShadow = 'none';
+      }
+    }
+
+    function addStickerToState(emoji) {
+      const index = state.stickers.indexOf(emoji);
+      if (index === -1) {
+        state.stickers.push(emoji);
+      }
+    }
+
+    function setupEventListeners() {
+      document.getElementById('headerMenuBtn').addEventListener('click', () => {
+        stopWebcam();
+        showScreen('menu');
+      });
+
+      document.querySelectorAll('.grid-selector .option-btn').forEach(card => {
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.grid-selector .option-btn').forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          state.selectedGrid = parseInt(card.dataset.grid);
+        });
+      });
+
+      document.querySelectorAll('.timer-selector .option-btn').forEach(card => {
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.timer-selector .option-btn').forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          state.selectedTimer = parseInt(card.dataset.timer);
+        });
+      });
+
+      // Upload de Logo
+      document.getElementById('logoInput').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const img = new Image();
+            img.onload = () => {
+              state.eventLogo = img;
+              document.getElementById('logoStatus').textContent = "LOGO CARREGADA!";
+            };
+            img.src = event.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Seletor de Bordas
+      document.querySelectorAll('.border-color-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+          document.querySelectorAll('.border-color-dot').forEach(d => d.classList.remove('selected'));
+          dot.classList.add('selected');
+          state.borderColor = dot.dataset.borderColor;
+        });
+      });
+
+      // Formatação de Texto das Frases
+      document.querySelectorAll('.text-color-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+          document.querySelectorAll('.text-color-dot').forEach(d => d.classList.remove('selected'));
+          dot.classList.add('selected');
+          state.textColor = dot.dataset.textColor;
+        });
+      });
+
+      document.querySelectorAll('.btn-size-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.btn-size-option').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          state.textSize = parseInt(btn.dataset.size);
+        });
+      });
+
+      document.getElementById('textFontSelect').addEventListener('change', (e) => {
+        state.textFont = e.target.value;
+      });
+
+      // Formatação de Título no Modal
+      document.querySelectorAll('.title-color-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+          document.querySelectorAll('.title-color-dot').forEach(d => d.classList.remove('selected'));
+          dot.classList.add('selected');
+          state.titleColor = dot.dataset.titleColor;
+        });
+      });
+
+      document.querySelectorAll('.title-shadow-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+          document.querySelectorAll('.title-shadow-dot').forEach(d => d.classList.remove('selected'));
+          dot.classList.add('selected');
+          state.titleShadowColor = dot.dataset.shadowColor;
+        });
+      });
+
+      document.getElementById('titleFontSelect').addEventListener('change', (e) => {
+        state.titleFont = e.target.value;
+      });
+
+      const shadowToggleBtn = document.getElementById('toggleShadowBtn');
+      shadowToggleBtn.addEventListener('click', () => {
+        state.hasTitleShadow = !state.hasTitleShadow;
+        shadowToggleBtn.textContent = `SOMBRA: ${state.hasTitleShadow ? 'LIGADA' : 'DESLIGADA'}`;
+        shadowToggleBtn.classList.toggle('btn-blue', state.hasTitleShadow);
+        shadowToggleBtn.classList.toggle('btn-red', !state.hasTitleShadow);
+      });
+
+      // Stickers Clicáveis
+      document.querySelectorAll('.sticker-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const emoji = item.dataset.sticker;
+          const index = state.stickers.indexOf(emoji);
+          if (index > -1) {
+            state.stickers.splice(index, 1);
+            item.classList.remove('selected');
+          } else {
+            state.stickers.push(emoji);
+            item.classList.add('selected');
+          }
+        });
+      });
+
+      // Busca por Nome do Curso
+      document.getElementById('addCourseStickerBtn').addEventListener('click', searchAndAddCourseSticker);
+      document.getElementById('courseSearchInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') searchAndAddCourseSticker();
+      });
+
+      function searchAndAddCourseSticker() {
+        const input = document.getElementById('courseSearchInput');
+        const term = input.value.trim().toLowerCase();
+        if (!term) return;
+
+        let foundEmoji = courseEmojiMap[term];
+        if (!foundEmoji) {
+          // Busca parcial
+          const matchedKey = Object.keys(courseEmojiMap).find(k => term.includes(k) || k.includes(term));
+          if (matchedKey) foundEmoji = courseEmojiMap[matchedKey];
+        }
+
+        if (foundEmoji) {
+          addStickerToState(foundEmoji);
+          // Marcar botão visualmente caso exista
+          const targetItem = document.querySelector(`.sticker-item[data-sticker="${foundEmoji}"]`);
+          if (targetItem) targetItem.classList.add('selected');
+          alert(`Símbolo do curso encontrado e adicionado: ${foundEmoji}`);
+        } else {
+          // Caso não encontre um curso específico, adiciona o capelo padrão de formatura
+          addStickerToState('🎓');
+          alert(`Símbolo padrão de formatura 🎓 adicionado para o curso "${input.value.trim()}"!`);
+        }
+        input.value = '';
+      }
+
+      // Toggle Arrudiar Bordas
+      const toggleBtn = document.getElementById('toggleBorderStickersBtn');
+      toggleBtn.addEventListener('click', () => {
+        state.borderStickers = !state.borderStickers;
+        toggleBtn.innerHTML = `<i class="fas fa-border-style"></i> ARRUDIAR BORDAS: ${state.borderStickers ? 'LIGADO' : 'DESLIGADO'}`;
+        toggleBtn.classList.toggle('btn-yellow', state.borderStickers);
+        toggleBtn.classList.toggle('btn-blue', !state.borderStickers);
+      });
+
+      // Câmera & Disparo
+      document.getElementById('turnOnCameraBtn').addEventListener('click', openCameraView);
+      document.getElementById('takePhotoBtn').addEventListener('click', startCaptureSequence);
+      document.getElementById('retakePhotosBtn').addEventListener('click', openCameraView);
+      document.getElementById('toggleFullscreenBtn').addEventListener('click', toggleFullscreen);
+
+      // Modal de Configurações
+      document.getElementById('openSettingsBtn').addEventListener('click', () => {
+        document.getElementById('settingsModal').classList.add('active');
+      });
+      document.getElementById('closeSettingsBtn').addEventListener('click', () => {
+        const titleInput = document.getElementById('inputBoothTitle').value;
+        if(titleInput.trim()) {
+          state.titleText = titleInput.trim();
+        }
+        state.currentCameraId = document.getElementById('cameraSelect').value;
+        updateHeaderTitleStyle();
+        document.getElementById('settingsModal').classList.remove('active');
+      });
+
+      document.getElementById('downloadBtn').addEventListener('click', downloadComposition);
+      document.getElementById('printBtn').addEventListener('click', printComposition);
+    }
+
+    async function loadCameraDevices() {
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(d => d.kind === 'videoinput');
+        const cameraSelect = document.getElementById('cameraSelect');
+        cameraSelect.innerHTML = '';
+        videoDevices.forEach((device, index) => {
+          const option = document.createElement('option');
+          option.value = device.deviceId;
+          option.text = device.label || `Câmera ${index + 1}`;
+          cameraSelect.appendChild(option);
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function startWebcam() {
+      if (state.stream) stopWebcam();
+      const constraints = {
+        video: state.currentCameraId ? { deviceId: { exact: state.currentCameraId } } : { facingMode: 'user' }
+      };
+      try {
+        state.stream = await navigator.mediaDevices.getUserMedia(constraints);
+        webcamVideo.srcObject = state.stream;
+      } catch (err) {
+        alert("Erro ao ligar a câmera: " + err.message);
+      }
+    }
+
+    function stopWebcam() {
+      if (state.stream) {
+        state.stream.getTracks().forEach(track => track.stop());
+        state.stream = null;
+      }
+    }
+
+    async function openCameraView() {
+      showScreen('capture');
+      captureStatus.textContent = "CÂMERA PRONTA - CLIQUE EM TIRAR FOTO";
+      document.getElementById('takePhotoBtn').style.display = 'inline-flex';
+      await startWebcam();
+    }
+
+    async function startCaptureSequence() {
+      document.getElementById('takePhotoBtn').style.display = 'none';
+      state.capturedPhotos = [];
+
+      const totalPhotos = state.selectedGrid;
+      for (let i = 1; i <= totalPhotos; i++) {
+        captureStatus.textContent = `PREPARE-SE: FOTO ${i} DE ${totalPhotos}`;
+        await runCountdown(state.selectedTimer);
+        triggerFlash();
+        capturePhoto();
+        await new Promise(r => setTimeout(r, 1000));
+      }
+
+      stopWebcam();
+      buildPreview();
+      showScreen('preview');
+    }
+
+    function runCountdown(seconds) {
+      return new Promise(resolve => {
+        countdownOverlay.style.display = 'flex';
+        let count = seconds;
+        countdownOverlay.textContent = count;
+
+        const interval = setInterval(() => {
+          count--;
+          if (count > 0) {
+            countdownOverlay.textContent = count;
+          } else {
+            clearInterval(interval);
+            countdownOverlay.style.display = 'none';
+            resolve();
+          }
+        }, 1000);
+      });
+    }
+
+    function triggerFlash() {
+      flashOverlay.classList.add('trigger');
+      setTimeout(() => flashOverlay.classList.remove('trigger'), 300);
+    }
+
+    function capturePhoto() {
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = webcamVideo.videoWidth || 640;
+      tempCanvas.height = webcamVideo.videoHeight || 480;
+      const ctx = tempCanvas.getContext('2d');
+      ctx.translate(tempCanvas.width, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(webcamVideo, 0, 0, tempCanvas.width, tempCanvas.height);
+      state.capturedPhotos.push(tempCanvas.toDataURL('image/png'));
+    }
+
+    function buildGridCanvas(targetCanvas) {
+      const ctx = targetCanvas.getContext('2d');
+      const photoWidth = 400;
+      const photoHeight = 300;
+      const padding = 20;
+      const headerHeight = state.eventLogo ? 100 : 60;
+      const footerExtraSpace = 70;
+
+      const numPhotos = state.capturedPhotos.length;
+      targetCanvas.width = photoWidth + (padding * 2);
+      targetCanvas.height = (photoHeight * numPhotos) + (padding * (numPhotos + 1)) + headerHeight + footerExtraSpace;
+
+      // Moldura e Fundo
+      ctx.fillStyle = state.borderColor;
+      ctx.fillRect(0, 0, targetCanvas.width, targetCanvas.height);
+
+      // Borda Neon Exterior
+      ctx.strokeStyle = '#00f3ff';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(5, 5, targetCanvas.width - 10, targetCanvas.height - 10);
+
+      // Desenhar Logo ou Título
+      if (state.eventLogo) {
+        const logoAspect = state.eventLogo.width / state.eventLogo.height;
+        const logoHeight = 60;
+        const logoWidth = logoHeight * logoAspect;
+        ctx.drawImage(state.eventLogo, (targetCanvas.width - logoWidth) / 2, padding, logoWidth, logoHeight);
+      } else {
+        ctx.fillStyle = state.titleColor;
+        ctx.font = `bold 22px ${state.titleFont}, sans-serif`;
+        ctx.textAlign = 'center';
+       
+        if (state.hasTitleShadow) {
+          ctx.shadowColor = state.titleShadowColor;
+          ctx.shadowBlur = 10;
+        }
+       
+        ctx.fillText(state.titleText, targetCanvas.width / 2, padding + 35);
+        ctx.shadowBlur = 0;
+      }
+
+      let loadedCount = 0;
+      state.capturedPhotos.forEach((src, idx) => {
+        const img = new Image();
+        img.onload = () => {
+          const y = padding + headerHeight + (idx * (photoHeight + padding));
+          ctx.drawImage(img, padding, y, photoWidth, photoHeight);
+         
+          ctx.strokeStyle = '#ff0055';
+          ctx.lineWidth = 3;
+          ctx.strokeRect(padding, y, photoWidth, photoHeight);
+
+          loadedCount++;
+          if (loadedCount === numPhotos) {
+            // Renderizar Frase Customizada Elevada
+            const customPhrase = document.getElementById('preCustomTextInput').value.trim();
+            if (customPhrase) {
+              ctx.fillStyle = state.textColor;
+              ctx.font = `bold ${state.textSize}px ${state.textFont}, sans-serif`;
+              ctx.textAlign = 'center';
+              ctx.shadowColor = state.textColor;
+              ctx.shadowBlur = 6;
+              ctx.fillText(customPhrase, targetCanvas.width / 2, targetCanvas.height - 50);
+              ctx.shadowBlur = 0;
+            }
+
+            // Renderizar Figurinhas (Arrudiando Bordas)
+            if (state.stickers.length > 0) {
+              ctx.font = '28px sans-serif';
+              ctx.textAlign = 'center';
+
+              if (state.borderStickers) {
+                const borderPositions = [];
+                const margin = 14;
+
+                for (let x = margin; x <= targetCanvas.width - margin; x += 45) {
+                  borderPositions.push({ x: x, y: margin + 15 });
+                  borderPositions.push({ x: x, y: targetCanvas.height - margin });
+                }
+                for (let y = margin + 45; y <= targetCanvas.height - 45; y += 45) {
+                  borderPositions.push({ x: margin + 5, y: y });
+                  borderPositions.push({ x: targetCanvas.width - margin - 5, y: y });
+                }
+
+                borderPositions.forEach((pos, i) => {
+                  const sticker = state.stickers[i % state.stickers.length];
+                  ctx.fillText(sticker, pos.x, pos.y);
+                });
+              } else {
+                state.stickers.forEach((sticker, i) => {
+                  const posX = 40 + (i * 45) % (targetCanvas.width - 80);
+                  const posY = headerHeight + 25;
+                  ctx.fillText(sticker, posX, posY);
+                });
+              }
+            }
+          }
+        };
+        img.src = src;
+      });
+    }
+
+    function buildPreview() {
+      buildGridCanvas(previewCanvas);
+    }
+
+    function downloadComposition() {
+      const link = document.createElement('a');
+      link.download = `minhas-lembrancas-${Date.now()}.png`;
+      link.href = previewCanvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function printComposition() {
+      const dataUrl = previewCanvas.toDataURL('image/png');
+      const printContainer = document.getElementById('printContainer');
+      printContainer.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:600px; display:block; margin:0 auto;">`;
+      window.print();
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          alert(`Erro no modo Tela Cheia: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+  </script>
+</body>
+</html>
